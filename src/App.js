@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+/** @format */
+import logo from "./img/logo.png";
+import data from "./data";
+import { useState } from "react";
+import Character from "./components/Character";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [characters, setCharacters] = useState(data);
+	const [activeChar, setActiveChar] = useState(characters[0]);
+	return (
+		<div className="App">
+			<div className="logo">
+				<img src={logo} alt="logo" />
+			</div>
+			<ul className="characters-con">
+				{characters.map((char) => {
+					const { name, image, id, sounds } = char;
+					return (
+						<li
+							className={`${activeChar.id === id ? "active" : ""}`}
+							key={id}
+							onClick={() => {
+								setActiveChar(char);
+							}}>
+							<div className="characters">
+								<img src={image} alt={name} />
+							</div>
+						</li>
+					);
+				})}
+			</ul>
+			<Character {...activeChar} />
+		</div>
+	);
 }
 
 export default App;
